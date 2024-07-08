@@ -1,5 +1,6 @@
 package com.dev.sprinboot.lesson.repository;
 
+import com.dev.sprinboot.lesson.IntegrationTestBase;
 import com.dev.sprinboot.lesson.entity.CompanyEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +14,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ActiveProfiles("test")
-@SpringBootTest
-@Transactional
-class CompanyRepositoryTest {
+
+class CompanyRepositoryTest extends IntegrationTestBase {
 
     private static final Integer APPLE_ID = 1;
 
