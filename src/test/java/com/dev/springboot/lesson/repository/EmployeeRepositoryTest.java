@@ -5,6 +5,8 @@ import com.dev.springboot.lesson.dto.EmployeeFilter;
 import com.dev.springboot.lesson.entity.EmployeeEntity;
 import com.dev.springboot.lesson.projection.EmployeeNameView;
 import com.dev.springboot.lesson.projection.EmployeeNativeView;
+import com.dev.springboot.lesson.util.QPredicates;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
@@ -62,12 +64,6 @@ class EmployeeRepositoryTest extends IntegrationTestBase {
         EmployeeFilter filter = EmployeeFilter.builder()
                 .firstName("ivaN")
                 .build();
-        if (filter.getFirstName() != null) {
-
-        }
-        if (filter.getLastName() != null) {
-
-        }
         List<EmployeeEntity> customQuery = employeeRepository.findByFilter(filter);
         assertThat(customQuery, hasSize(1));
     }
@@ -78,6 +74,22 @@ class EmployeeRepositoryTest extends IntegrationTestBase {
                 .and(employeeEntity.salary.goe(1000));
         Page<EmployeeEntity> allValues = employeeRepository.findAll(predicate, Pageable.unpaged());
         assertThat(allValues.getContent(), hasSize(1));
+    }
+
+    @Test
+    void testQPredicates() {
+        EmployeeFilter filter = EmployeeFilter.builder()
+                .firstName("ivaN")
+                .salary(1000)
+                .build();
+        var predicate = QPredicates.builder()
+                .add(filter.getFirstName(), employeeEntity.firstName::containsIgnoreCase)
+                .add(filter.getLastName(), employeeEntity.lastName::containsIgnoreCase)
+                .add(filter.getSalary(), employeeEntity.salary::goe)
+                .buildAnd();
+        Iterable<EmployeeEntity> result = employeeRepository.findAll(predicate);
+        assertTrue(result.iterator().hasNext());
+        System.out.println();
     }
 
 }
