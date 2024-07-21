@@ -31,6 +31,7 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     implementation 'org.projectlombok:lombok'
     implementation 'com.querydsl:querydsl-jpa'
+    implementation 'org.flywaydb:flyway-core'
 
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'com.querydsl:querydsl-apt'
