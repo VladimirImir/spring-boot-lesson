@@ -1,5 +1,5 @@
 ext {
     versions = [
-            'postgresContainer' : '1.14.3'
+            'postgresContainer' : '1.20.0'
     ]
 }
